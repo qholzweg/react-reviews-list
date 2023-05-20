@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 export const Watch: FC = () => {
 
@@ -8,12 +8,13 @@ export const Watch: FC = () => {
     setTime(new Date().toLocaleTimeString());
   }
 
+  const interval = useRef<ReturnType<typeof setInterval> | null>(null)
   useEffect(() => {
-    const interval = setInterval(
+    interval.current = setInterval(
       () => updateTime(),
       1000
     );
-    return clearInterval(interval)
+    return () => clearInterval(interval.current as ReturnType<typeof setInterval>)
   }, []);
 
 

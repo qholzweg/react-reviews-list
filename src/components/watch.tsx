@@ -1,32 +1,25 @@
-import { Component } from "react";
+import { FC, useEffect, useState } from "react";
 
-export class Watch extends Component {
+export const Watch: FC = () => {
 
-  state = {
-    time: new Date().toLocaleTimeString()
+  const [time, setTime] = useState<String>(new Date().toLocaleTimeString());
+
+  const updateTime = () => {
+    setTime(new Date().toLocaleTimeString());
   }
 
-  interval: ReturnType<typeof setInterval> | undefined;
-
-  updateTime() {
-    this.setState({ time: new Date().toLocaleTimeString() });
-  }
-
-  componentDidMount() {
-    this.interval = setInterval(
-      () => this.updateTime(),
+  useEffect(() => {
+    const interval = setInterval(
+      () => updateTime(),
       1000
     );
-  }
-  componentWillUnmount() {
-    clearInterval(this.interval)
-  }
+    return clearInterval(interval)
+  }, []);
 
-  render() {
-    return (
-      <div className='watch p-4 rounded-lg'>
-        <span className="time text-xl text-white">{this.state.time}</span>
-      </div>
-    );
-  }
+
+  return (
+    <div className='watch p-4 rounded-lg'>
+      <span className="time text-xl text-white">{time}</span>
+    </div>
+  );
 }

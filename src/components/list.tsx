@@ -1,4 +1,4 @@
-import { Component, useState } from 'react';
+import { FC, useState } from 'react';
 import list from '../data.json';
 import { useAppSelector } from '../hooks/store';
 import { selectSettings } from '../service/settings-slice';
@@ -9,21 +9,19 @@ type TItem = {
   review: string
 }
 
-class Item extends Component<{el: TItem}> {
-  render() {
+const Item :FC<{el: TItem}> = ({el}) => {
     return (
       <div className='card rounded-lg border border-gray-400 p-4 mb-2'>
         <div className='header flex justify-between'>
-          <h4 className='text-lg font-bold'>{this.props.el.name}</h4>
-          <span className='text-gray-600 text-sm'>{this.props.el.date}</span>
+          <h4 className='text-lg font-bold'>{el.name}</h4>
+          <span className='text-gray-600 text-sm'>{el.date}</span>
         </div>
-        <p>{this.props.el.review}</p>
+        <p>{el.review}</p>
       </div>
     )
-  }
 }
 
-export const List = () => {
+export const List: FC = () => {
   const { lang } = useAppSelector(selectSettings);
   const [page, setPage] = useState(1);
   const currentList = list[lang as keyof typeof list];
